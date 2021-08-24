@@ -1,3 +1,11 @@
+# Visual Studio
+.vscode
+
+# Build
+bin/
+build/
+
+
 # Prerequisites
 *.d
 
