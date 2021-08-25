@@ -29,6 +29,9 @@ void compress(const char* src, char* dst, const WAVEHeader &wav, ADPCMHeader &ad
 // Decompresses a stream 4-bit values from src and stores the 16-bit samples in dst
 void decompress(const char* src, char* dst, const ADPCMHeader &adpcm);
 
+// Checks if the ADPCM Header is correctly formatted
+bool isCorrectHeader(ADPCMHeader &hdr);
+
 // Returns the bytes required to store the compressed data
 int ADPCMDataSize(const WAVEHeader &wav);
 

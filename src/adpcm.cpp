@@ -1,6 +1,5 @@
 #include <adpcm-lib/adpcm.h>
 #include <string.h>
-#include <iostream>
 
 // Index table that specifies the modification to the index based on
 // The 4-bit ADPCM difference in compression or decompression.
@@ -106,6 +105,8 @@ void compress(const char* src, char* dst, const WAVEHeader &wav, ADPCMHeader &ad
 
     // Assign sample cound and channel count in the header
     memset(&adp, 0, sizeof(ADPCMHeader));
+    memcpy(&adp.chunkID, "adp ", 4);
+    memcpy(&adp.dataID,  "data", 4);
     adp.channelCount = wav.numChannels;
     adp.sampleCount  = wav.subchunk2Size / (wav.bitsPerSample/8);
     adp.dataSize     = (adp.sampleCount - adp.channelCount + 1) /2;
@@ -197,6 +198,24 @@ void decompress(const char* src, char* dst, const ADPCMHeader &adp)
         {   shift = 0;
         }
     }
+}
+
+// Checks if the ADPCM Header is correctly formatted
+bool isCorrectHeader(ADPCMHeader &hdr)
+{
+    if(memcmp(hdr.chunkID, "adp ", 4) == 0)
+    {   
+        if(memcmp(hdr.dataID, "data", 4) == 0)
+        {   
+            int expectedSize = 16 + (8 + hdr.dataSize);
+            if(hdr.chunkSize == expectedSize)
+            {   
+                return true;
+            }
+        }
+    }
+
+    return false;
 }
 
 // Returns the bytes required to store the compressed data
