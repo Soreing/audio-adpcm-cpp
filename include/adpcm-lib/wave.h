@@ -4,7 +4,7 @@
 // Information taken from online at:
 // http://soundfile.sapp.org/doc/WaveFormat/
 
-struct WaveHeader
+struct WAVEHeader
 {
     char  chunkID[4] = {'R','I','F','F'};       // Contains the letters "RIFF" in ASCII form
     long  chunkSize;                            // 4 + (8 + SubChunk1Size) + (8 + SubChunk2Size)
@@ -23,6 +23,6 @@ struct WaveHeader
     long  subchunk2Size;                        // This is the number of bytes in the data
 };
 
-bool isCorrectHeader(struct WaveHeader *hdr);
+bool isCorrectHeader(WAVEHeader &hdr);
 
 #endif
